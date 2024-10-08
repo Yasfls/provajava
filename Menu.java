@@ -3,12 +3,15 @@ import java.util.Scanner;
 
 public class Menu {
     public static void main(String[] args) {
+        //variável utilizado na seleção switch
         int opt = 0;
         Scanner scanner = new Scanner(System.in);
+        //listas utilizadas para armazenamento de dados
         ArrayList<Professor> professores = new ArrayList<Professor>();
         ArrayList<Curso> cursos = new ArrayList<Curso>();
         ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 
+        //utilizado o do while no switch do menu para que até que o menu continue rodando até qe o usuário selcine 7
         do {
             System.out.println("Opções: ");
             System.out.println("1 - Cadastrar Professor");
@@ -21,6 +24,7 @@ public class Menu {
             try {
                 opt = scanner.nextInt();
             
+            //opção 1 - inserindo os dados no objeto Pofessor
             switch (opt) {
                 case 1: {
                     
@@ -36,6 +40,7 @@ public class Menu {
                     
                 }
                 break;
+            //opção 2 - inserindo os dados no objeto curso
                 case 2: {
                     System.out.println("Digite o id: ");
                     int idCurso = scanner.nextInt();
@@ -51,6 +56,7 @@ public class Menu {
                             prof = professor;
                         }
                     }
+                    //utilizado if para não deixar inserções com o id inexistente ocorrer (ao inserir o id do professor)
                     if(prof != null ){
                         Curso curso = new Curso(idCurso, nomeCurso, cargaHoras, prof);
                         cursos.add(curso);
@@ -60,6 +66,7 @@ public class Menu {
                     
                 }
                 break;
+            //opção 3 - inserindo os dados no objeto aluno
                 case 3: {
                     System.out.println("Digite o id: ");
                     int idAluno = scanner.nextInt();
@@ -76,6 +83,7 @@ public class Menu {
                         if(curso.idCurso == cursoAluno){
                             cursinho = curso;
                         }
+                    //utilizado if para não deixar inserções com o id inexistente ocorrer (ao inserir o id do curso)
                     }
                     if(cursinho != null){
                     Aluno aluno = new Aluno(idAluno, nomeAluno, dataNasc, cpf, cursinho);
@@ -85,20 +93,26 @@ public class Menu {
                     }
                 }
                 break;
+            //opção 4 - imprimindo a lista de professores
                 case 4:
+                //primeiro for imprime os dados normais do objeto professor
                     for (Professor professorPrint : professores) {
                         System.out.println("Nome: " + professorPrint.nomeProfessor);
                         System.out.println("Departamento: " + professorPrint.departamentoProf);
                         System.out.println("Cursos lecionados:");
+                    //segundo for para validar se o id do professor está presente na inserção do curso, se sim, ele será impresso junto ao professor
                         for(Curso curso : cursos){
                             if(curso.professorCurso.idProfessor == professorPrint.idProfessor){
                                 System.out.println("Curso: " + curso.nomeCurso);
                                 int contador = 0;
+                            //terceiro for para validar a quantidade de alunos em ada curso em que o professor leciona, utilizando um contador junto ao for
+                            //validamos se o id do curso (já validado anteriormente) é o mesmo inserido no auno, se sim, ele conta mais 1 no contador de alunos
                                 for(Aluno aluno: alunos){
                                     if(aluno.cursoAluno.idCurso == curso.idCurso){
                                         contador++;
                                     }
                                 }
+                                //imprimindo a quantidade de alunos
                                 System.out.println("Total de alunos no curso: " + contador);
                             }
                         }
@@ -106,6 +120,7 @@ public class Menu {
 
                     }
                     break;
+                //opção 5 imprimindo as inserções do objeto curso com o nome do professor que o leciona, sendo puxado pelo id inserido no objeto
                 case 5:
                     for (Curso cursoPrint : cursos) {
                         System.out.println("Nome: " + cursoPrint.nomeCurso);
@@ -115,6 +130,7 @@ public class Menu {
 
                     }
                     break;
+                //opção 6 imprimindo as inerções do objeto aluno com o nome do curso em que ele está matriculado, o nome é puxado pelo id inserido no objeto
                 case 6:
                     for (Aluno alunoPrint : alunos) {
                         int contador = 0;
@@ -126,12 +142,14 @@ public class Menu {
                         
                     }
                     break;
+                //opção 7 fecha o programa e saí do loop do while
                 case 7:
                     System.out.println("Saindo...");
                     break;
                 default:
                     break;
             }
+        //mensagem de erro do try catch
         } catch (Exception e) {
             System.out.println("Opção inválida");
             scanner.nextLine();
